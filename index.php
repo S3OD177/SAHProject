@@ -1,6 +1,18 @@
 <?php
 session_start();
+include 'db.php'; // Ensure this points to your actual database connection file
+
+// Fetch activities from database
+$activities = [];
+$query = "SELECT id, title, description, date, location FROM activities ORDER BY date DESC";
+if ($result = $conn->query($query)) {
+    while ($row = $result->fetch_assoc()) {
+        $activities[] = $row;
+    }
+    $result->free();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,7 +68,30 @@ session_start();
         </div>
     </div>
 </div>
-
+<!-- Activities Section -->
+<div class="container mt-4">
+    <h2>Upcoming Activities</h2>
+    <div class="row">
+        <?php foreach ($activities as $activity): ?>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($activity['title']) ?></h5>
+                        <p class="card-text"><?= htmlspecialchars($activity['description']) ?></p>
+                        <p class="card-text"><small class="text-muted">Date: <?= htmlspecialchars($activity['date']) ?></small></p>
+                        <p class="card-text"><small class="text-muted">Location: <?= htmlspecialchars($activity['location']) ?></small></p>
+                        <?php if (new DateTime() < new DateTime($activity['date'])): ?>
+                            <button class="btn btn-primary enrollBtn" data-activity-id="<?= $activity['id'] ?>">Enroll</button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+        <?php if (empty($activities)): ?>
+            <p>No activities found.</p>
+        <?php endif; ?>
+    </div>
+</div>
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
