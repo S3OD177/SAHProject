@@ -157,18 +157,13 @@ if ($result = $conn->query($query)) {
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 $(document).ready(function() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var registrationStatus = urlParams.get('registrationStatus');
-    if(registrationStatus) {
-        alert(registrationStatus);
-    }
-
     $('.enrollBtn').click(function() {
         var activityId = $(this).data('activity-id');
         var button = $(this); // Reference to the button for later use
-        
+
         $.ajax({
             url: 'enroll_activity.php',
             type: 'POST',
@@ -177,14 +172,34 @@ $(document).ready(function() {
                 response = response.trim();
                 if(response === 'success') {
                     button.prop('disabled', true).text('Enrolled');
+                } else if (response === 'already_enrolled') {
+                    button.prop('disabled', true).text('Already Enrolled');
                 } else {
                     alert('Failed to enroll. Please try again.');
                 }
             }
         });
     });
+
+    // Optionally, check enrollments when the page loads
+    $('.enrollBtn').each(function() {
+        var button = $(this);
+        var activityId = button.data('activity-id');
+
+        $.ajax({
+            url: 'check_enrollment.php', // You'll need to create this PHP file
+            type: 'POST',
+            data: { 'activity_id': activityId },
+            success: function(response) {
+                if (response.trim() === 'already_enrolled') {
+                    button.prop('disabled', true).text('Already Enrolled');
+                }
+            }
+        });
+    });
 });
 </script>
+
 
 
 </body>
