@@ -1,0 +1,47 @@
+#wrapper {
+    width: 1200px;
+    margin: 0 auto; /* Centering the container */
+}
+
+nav {
+    background-color: #ffffff; /* White background for the navigation */
+}
+
+nav ul {
+    list-style-type: none; /* Remove bullets */
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block; /* Arrange items horizontally */
+    
+}
+
+nav ul li a {
+    text-decoration: none; /* Remove underline */
+    color: #00008B; /* Dark blue color */
+    text-transform: uppercase; /* Uppercase text */
+    font-weight: bold; /* Bold text */
+    margin-right: 10px; /* Space between menu items */
+}
+
+#d1 {
+    margin-top: 15px; /* Space between image and search box */
+    width: 200px;
+    float: right; /* Float the search box to the right */
+    color : #00008B;
+}
+
+input[type="text"] {
+    width: 150px; /* Width of the search box */
+}
+
+img {
+    float: left; /* Float the image to the left */
+    margin-right: 15px; /* Space between image and menu */
+}
+
+a:hover {
+    background-color: #cccccc; /* Gray background on hover */
+}

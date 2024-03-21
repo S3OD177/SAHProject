@@ -1,3 +1,50 @@
+<?php
+// At the top of your file
+session_start();
+include 'db.php'; // Adjust this to your database connection file
+
+// Access control
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
+    exit('Access Denied');
+}
+
+// Fetch users from the database
+$usersQuery = "SELECT id, username, role FROM users";
+$result = $conn->query($usersQuery);
+?>
+
+<h2>Edit User Roles</h2>
+
+<?php if ($result->num_rows > 0): ?>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($row['username']); ?></td>
+                    <td>
+                        <form action="edit_role.php" method="post">
+                            <input type="hidden" name="user_id" value="<?php echo $row['id']; ?>">
+                            <select name="role" onchange="this.form.submit()">
+                                <option value="user" <?php if ($row['role'] == 'user') echo 'selected'; ?>>User</option>
+                                <option value="admin" <?php if ($row['role'] == 'admin') echo 'selected'; ?>>Admin</option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <p>No users found.</p>
+<?php endif; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
