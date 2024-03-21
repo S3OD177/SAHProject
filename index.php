@@ -164,7 +164,7 @@ $(document).ready(function() {
     if(registrationStatus) {
         alert(registrationStatus);
     }
-    
+
     $('.enrollBtn').click(function() {
         var activityId = $(this).data('activity-id');
         var button = $(this); // Reference to the button for later use
@@ -174,7 +174,7 @@ $(document).ready(function() {
             type: 'POST',
             data: { 'activity_id': activityId },
             success: function(response) {
-                // Handle response here. For example, disable the button on successful enrollment
+                response = response.trim();
                 if(response === 'success') {
                     button.prop('disabled', true).text('Enrolled');
                 } else {
@@ -185,6 +185,7 @@ $(document).ready(function() {
     });
 });
 </script>
+
 
 </body>
 </html>

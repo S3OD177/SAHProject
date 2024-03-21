@@ -36,36 +36,29 @@ if(isset($_SESSION['user_id']) && isset($_POST['activity_id'])) {
 ?>
 
 
+<!-- Include jQuery first -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 <script>
 $(document).ready(function() {
     $('.enrollBtn').click(function() {
         var activityId = $(this).data('activity-id');
-        var button = $(this); // Reference to the button for later use
-        
+        var button = $(this);
+
         $.ajax({
             url: 'enroll_activity.php',
             type: 'POST',
             data: { 'activity_id': activityId },
             success: function(response) {
-    response = response.trim();
-    if(response === 'success') {
-        button.prop('disabled', true).text('Enrolled');
-    } else {
-        alert('Failed to enroll. Please try again.');
-    }
-}
-
+                response = response.trim();
+                if(response === 'success') {
+                    button.prop('disabled', true).text('Enrolled');
+                } else {
+                    alert(response); // Changed to output the actual response for debugging
+                }
+            }
         });
     });
 });
-<!-- jQuery library -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-<!-- Custom JavaScript for the enroll button -->
-<script>
-$(document).ready(function() {
-    // Your AJAX code here
-});
 </script>
 
-</script>
