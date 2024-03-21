@@ -28,7 +28,7 @@ if(isset($_SESSION['user_id']) && isset($_POST['activity_id'])) {
     } else {
         echo 'already_enrolled';
     }
-    $insert->close(); // Close the statement
+    $insert->close(); // Close the statemen
     $check->close(); // Close the statement
 } else {
     echo 'unauthenticated';
