@@ -26,6 +26,8 @@ if(isset($_SESSION['user_id']) && isset($_POST['activity_id'])) {
 } else {
     echo 'unauthenticated';
 }
+
+
 ?>
 
 <script>
@@ -49,4 +51,14 @@ $(document).ready(function() {
         });
     });
 });
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Custom JavaScript for the enroll button -->
+<script>
+$(document).ready(function() {
+    // Your AJAX code here
+});
+</script>
+
 </script>

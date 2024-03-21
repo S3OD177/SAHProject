@@ -164,6 +164,25 @@ $(document).ready(function() {
     if(registrationStatus) {
         alert(registrationStatus);
     }
+    
+    $('.enrollBtn').click(function() {
+        var activityId = $(this).data('activity-id');
+        var button = $(this); // Reference to the button for later use
+        
+        $.ajax({
+            url: 'enroll_activity.php',
+            type: 'POST',
+            data: { 'activity_id': activityId },
+            success: function(response) {
+                // Handle response here. For example, disable the button on successful enrollment
+                if(response === 'success') {
+                    button.prop('disabled', true).text('Enrolled');
+                } else {
+                    alert('Failed to enroll. Please try again.');
+                }
+            }
+        });
+    });
 });
 </script>
 
