@@ -2,6 +2,8 @@
 session_start();
 include 'db.php';
 
+header('Content-Type: text/plain'); // Set Content-Type header at the beginning
+
 if(isset($_SESSION['user_id']) && isset($_POST['activity_id'])) {
     $userId = $_SESSION['user_id'];
     $activityId = $conn->real_escape_string($_POST['activity_id']);
@@ -18,17 +20,21 @@ if(isset($_SESSION['user_id']) && isset($_POST['activity_id'])) {
         if($insert->execute()) {
             echo 'success';
         } else {
+            // You could log the error somewhere instead of echoing it for security
+            //echo 'error';
+            error_log('Insertion error: ' . $insert->error); // Log error to the server's error log
             echo 'error';
         }
     } else {
         echo 'already_enrolled';
     }
+    $insert->close(); // Close the statement
+    $check->close(); // Close the statement
 } else {
     echo 'unauthenticated';
 }
-
-
 ?>
+
 
 <script>
 $(document).ready(function() {
@@ -41,13 +47,14 @@ $(document).ready(function() {
             type: 'POST',
             data: { 'activity_id': activityId },
             success: function(response) {
-                // Handle response here. For example, disable the button on successful enrollment
-                if(response === 'success') {
-                    button.prop('disabled', true).text('Enrolled');
-                } else {
-                    alert('Failed to enroll. Please try again.');
-                }
-            }
+    response = response.trim();
+    if(response === 'success') {
+        button.prop('disabled', true).text('Enrolled');
+    } else {
+        alert('Failed to enroll. Please try again.');
+    }
+}
+
         });
     });
 });
